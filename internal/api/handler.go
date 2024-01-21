@@ -8,7 +8,8 @@ import (
 	"hexagonal-architecture/internal/logger"
 	"net/http"
 
-	"github.com/etcd-io/etcd/raft"
+	"go.etcd.io/raft/v3"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,7 +28,7 @@ func FileUploadHandler(c *gin.Context) {
 	defer fileContent.Close()
 
 	// Initialize raft, database, and logger adapters
-	raftAdapter := consensus.NewRaftConsensusAdapter(1, []raft.Peer{})
+	raftAdapter := consensus.NewRaftConsensusAdapter(1, []raft.Peer{{ID: uint64(2)}, {ID: uint64(3)}, {ID: uint64(4)}, {ID: uint64(5)}})
 	redisAdapter := database.NewRedisAdapter()
 	hclogAdapter := logger.NewHclogAdapter()
 

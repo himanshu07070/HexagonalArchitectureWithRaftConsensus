@@ -7,8 +7,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/etcd-io/etcd/raft"
-	"github.com/etcd-io/etcd/raft/raftpb"
+	"go.etcd.io/raft/v3"
+	"go.etcd.io/raft/v3/raftpb"
 )
 
 type RaftConsensusAdapter struct {
@@ -31,7 +31,6 @@ func NewRaftConsensusAdapter(nodeID int, peers []raft.Peer) *RaftConsensusAdapte
 		node:    node,
 		storage: config.Storage.(*raft.MemoryStorage),
 	}
-
 	// Start the Raft node
 	go adapter.serveRaft()
 
@@ -46,7 +45,6 @@ func (r *RaftConsensusAdapter) UpdateDatabase(fileName string, fileSize int64) {
 		Data: []byte(fmt.Sprintf("%s:%d", fileName, fileSize)),
 	}
 	entryBytes, _ := json.Marshal(entry)
-
 	// Propose the entry to the Raft node
 	err := r.node.Propose(context.TODO(), entryBytes)
 	if err != nil {

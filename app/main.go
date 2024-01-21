@@ -13,7 +13,6 @@ func main() {
 	logs := logger.NewHclogAdapter()
 	// Register the file upload endpoint
 	router.POST("/upload", api.FileUploadHandler)
-
 	// Start the server
 	serverAddr := ":8080"
 	logs.Debug("Server listening on", serverAddr, "address")

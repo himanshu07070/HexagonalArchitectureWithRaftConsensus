@@ -43,9 +43,8 @@ func (fp *FileProcessor) ProcessFile(fileName string, file io.Reader) (int64, er
 		return 0, errors.New("invalid file extension")
 	}
 	fileSize = int64(len(fileInfo))
-
 	// Update the database using consensus mechanism
-	fp.ConsensusPort.UpdateDatabase(fileName, fileSize)
+	go fp.ConsensusPort.UpdateDatabase(fileName, fileSize)
 
 	err = fp.DatabasePort.Store(fileName, fileSize)
 	if err != nil {
